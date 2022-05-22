@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.manymobi.servlet.http.log.logstash.spring.boot.autoconfigure.LogstashMarkersConfigure
