@@ -2,8 +2,6 @@ package com.manymobi.servlet.http.log;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -49,7 +47,7 @@ public abstract class Logger {
         return true;
     }
 
-    protected void logRequest(HttpServletRequest httpRequest, LogStrategy logStrategy) throws UnsupportedEncodingException {
+    protected void logRequest(HttpServletRequest httpRequest, LogStrategy logStrategy) {
         httpRequest.setAttribute(REQUEST_START_TIME, System.currentTimeMillis());
         Map<String, Object> map = new HashMap<>();
         map.put("url", httpRequest.getRequestURL());
@@ -78,7 +76,7 @@ public abstract class Logger {
         return headerMap;
     }
 
-    protected String getParameterString(HttpServletRequest httpRequest) throws UnsupportedEncodingException {
+    protected String getParameterString(HttpServletRequest httpRequest) {
         Map<String, String[]> objectMap = httpRequest.getParameterMap();
         if (objectMap == null || objectMap.isEmpty()) {
             return null;
@@ -88,11 +86,11 @@ public abstract class Logger {
         for (Map.Entry<String, String[]> entry : entries) {
             parameterBuilder
                     .append("&")
-                    .append(URLEncoder.encode(entry.getKey(), httpRequest.getCharacterEncoding()))
+                    .append(entry.getKey())
                     .append("=");
             StringJoiner stringJoiner1 = new StringJoiner(",");
             for (String s : entry.getValue()) {
-                stringJoiner1.add(URLEncoder.encode(s, httpRequest.getCharacterEncoding()));
+                stringJoiner1.add(s);
             }
             parameterBuilder.append(stringJoiner1);
         }

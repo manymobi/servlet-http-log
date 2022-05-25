@@ -9,8 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +24,7 @@ public class LogstashLoggerImpl extends Logger {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(LogFilter.class);
 
     @Override
-    protected void logRequest(HttpServletRequest httpRequest, LogStrategy logStrategy) throws UnsupportedEncodingException {
+    protected void logRequest(HttpServletRequest httpRequest, LogStrategy logStrategy) {
         httpRequest.setAttribute(REQUEST_START_TIME, System.currentTimeMillis());
 
         Map<String, Object> map = new HashMap<>();
@@ -62,7 +60,7 @@ public class LogstashLoggerImpl extends Logger {
         map.put("status", httpResponse.getStatus());
         Map<String, Object> header = getHeader(httpResponse);
         map.put("header", header);
-        map.put("time",time);
+        map.put("time", time);
         logger.info(Markers.appendEntries(map), "response status={} time={}ms body={} header={}",
                 httpResponse.getStatus(),
                 time,
