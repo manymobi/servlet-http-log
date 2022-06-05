@@ -42,7 +42,9 @@ public class ServletHttpLogAutoConfigure {
             pathStrategyMap = new HashMap<>();
         }
         if (pathStrategyMap.isEmpty()) {
-            pathStrategyMap.put("/**", new LogProperties.PathStrategy());
+            LogProperties.PathStrategy pathStrategy = new LogProperties.PathStrategy();
+            pathStrategyMap.put("/**", pathStrategy);
+            pathStrategyMap.put("/", pathStrategy);
         }
         URLPathRepository.Builder<LogStrategy> builder = new URLPathRepository.Builder<>();
         pathStrategyMap.forEach((key, pathStrategy) -> {
