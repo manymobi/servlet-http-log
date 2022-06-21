@@ -2,6 +2,8 @@ package com.manymobi.servlet.http.log;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -50,8 +52,8 @@ public abstract class Logger {
     protected void logRequest(HttpServletRequest httpRequest, LogStrategy logStrategy) {
         httpRequest.setAttribute(REQUEST_START_TIME, System.currentTimeMillis());
         Map<String, Object> map = new HashMap<>();
-        map.put("url", httpRequest.getRequestURL());
-        map.put("uri", httpRequest.getRequestURI());
+        map.put("url", getURL(httpRequest));
+        map.put("uri", getURI(httpRequest));
         map.put("method", httpRequest.getMethod());
         map.put("ip", httpRequest.getRemoteAddr());
         map.put("header", getHeader(httpRequest));
@@ -59,7 +61,23 @@ public abstract class Logger {
         if (parameterString != null) {
             map.put("parameter", parameterString);
         }
-        log("request {} {} {}", httpRequest.getMethod(), httpRequest.getRequestURL(), map);
+        log("request {} {} {}", httpRequest.getMethod(), getURL(httpRequest), map);
+    }
+
+    protected String getURI(HttpServletRequest httpRequest) {
+        return decodeURL(httpRequest.getRequestURI());
+    }
+
+    protected String getURL(HttpServletRequest httpRequest) {
+        return decodeURL(httpRequest.getRequestURL().toString());
+    }
+
+    protected String decodeURL(String content) {
+        try {
+            return URLDecoder.decode(content, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return content;
+        }
     }
 
     protected Map<String, Object> getHeader(HttpServletRequest httpRequest) {

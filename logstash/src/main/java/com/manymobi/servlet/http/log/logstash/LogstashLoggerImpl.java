@@ -28,8 +28,8 @@ public class LogstashLoggerImpl extends Logger {
         httpRequest.setAttribute(REQUEST_START_TIME, System.currentTimeMillis());
 
         Map<String, Object> map = new HashMap<>();
-        map.put("url", httpRequest.getRequestURL());
-        map.put("uri", httpRequest.getRequestURI());
+        map.put("url", getURL(httpRequest));
+        map.put("uri", getURI(httpRequest));
         map.put("method", httpRequest.getMethod());
         map.put("ip", httpRequest.getRemoteAddr());
         Map<String, Object> header = getHeader(httpRequest);
@@ -38,7 +38,7 @@ public class LogstashLoggerImpl extends Logger {
         if (parameterString != null) {
             map.put("parameter", parameterString);
         }
-        logger.info("request {} {} {}", httpRequest.getMethod(), httpRequest.getRequestURL(), StructuredArguments.e(map));
+        logger.info("request {} {} {}", httpRequest.getMethod(), getURL(httpRequest), StructuredArguments.e(map));
     }
 
     @Override
