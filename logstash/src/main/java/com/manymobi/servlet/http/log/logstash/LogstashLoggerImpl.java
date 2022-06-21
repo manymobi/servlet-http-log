@@ -45,8 +45,8 @@ public class LogstashLoggerImpl extends Logger {
     protected void logRequestBody(HttpServletRequest httpRequest, String bodyString, LogStrategy logStrategy) {
 
         Map<String, Object> map = new HashMap<>();
-        map.put("url", httpRequest.getRequestURL());
-        map.put("uri", httpRequest.getRequestURI());
+        map.put("url", getURL(httpRequest));
+        map.put("uri", getURI(httpRequest));
         map.put("method", httpRequest.getMethod());
         logger.info(Markers.appendEntries(map), "request body={}", bodyString);
     }
