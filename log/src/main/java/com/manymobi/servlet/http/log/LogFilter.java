@@ -12,6 +12,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Optional;
 
 /**
@@ -37,8 +39,17 @@ public class LogFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
     }
 
+    protected String decodeURL(String content) {
+        try {
+            return URLDecoder.decode(content, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return content;
+        }
+    }
+
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
         if (!logger.isEnabled()) {
             chain.doFilter(request, response);
             return;
@@ -47,7 +58,9 @@ public class LogFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         String method = httpRequest.getMethod();
-        Optional<LogStrategy> logStrategyOptional = urlPathRepository.find(method, httpRequest.getRequestURI());
+        Optional<LogStrategy> logStrategyOptional = urlPathRepository.find(
+                method, decodeURL(httpRequest.getRequestURI())
+        );
         LogStrategy logStrategy = logStrategyOptional.orElse(null);
         if (logStrategy == null || !logStrategy.isOutputLog()) {
             chain.doFilter(request, response);
