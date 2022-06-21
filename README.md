@@ -19,12 +19,12 @@ Servlet Http Log
   <dependency>
       <groupId>com.manymobi</groupId>
       <artifactId>servlet-http-log-spring-boot-starter</artifactId>
-      <version>1.0.0</version>
+      <version>1.1.0</version>
   </dependency>
   ```
 - Gradle
   ```groovy
-  implementation 'com.manymobi:servlet-http-log-spring-boot-starter:1.0.0'
+  implementation 'com.manymobi:servlet-http-log-spring-boot-starter:1.1.0'
   ```
 
 # 配置解释
@@ -90,10 +90,10 @@ servlet:
   <dependency>
       <groupId>com.manymobi</groupId>
       <artifactId>servlet-http-log-logstash-spring-boot-starter</artifactId>
-      <version>1.0.0</version>
+      <version>1.1.0</version>
   </dependency>
   ```
 - Gradle
   ```groovy
-  implementation 'com.manymobi:servlet-http-log-logstash-spring-boot-starter:1.0.0'
+  implementation 'com.manymobi:servlet-http-log-logstash-spring-boot-starter:1.1.0'
   ```
