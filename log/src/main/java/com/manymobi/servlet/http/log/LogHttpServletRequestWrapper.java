@@ -114,7 +114,7 @@ public class LogHttpServletRequestWrapper extends HttpServletRequestWrapper {
         @Override
         public int read() throws IOException {
             int b = servletInputStream.read();
-            if (b != -1) {
+            if (b != -1 && byteArrayOutputStream != null) {
                 byteArrayOutputStream.write(b);
             } else {
                 print(true);
@@ -127,7 +127,7 @@ public class LogHttpServletRequestWrapper extends HttpServletRequestWrapper {
         @Override
         public int read(byte[] b, int off, int len) throws IOException {
             int read = servletInputStream.read(b, off, len);
-            if (read != -1) {
+            if (read != -1 && byteArrayOutputStream != null) {
                 byteArrayOutputStream.write(b, off, read);
             } else {
                 print(true);
