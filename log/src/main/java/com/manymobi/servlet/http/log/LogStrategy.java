@@ -59,7 +59,7 @@ public class LogStrategy {
     /**
      * 响应内容最大默认缓存长度
      */
-    private final int responseBodyMaxLength;
+    private final int responseBodyMaxSize;
 
     /**
      * 自定义

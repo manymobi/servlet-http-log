@@ -76,7 +76,7 @@ servlet:
           # 响应内容最大默认缓存长度
           # 0:使用默认的
           # -1: 不限制
-          responseBodyMaxLength: 8192
+          responseBodyMaxSize: 8192
           # 自定义
           custom:
             "key": "value"

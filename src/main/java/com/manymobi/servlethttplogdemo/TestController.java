@@ -1,8 +1,5 @@
 package com.manymobi.servlethttplogdemo;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,10 +17,11 @@ import java.util.Map;
 @RestController
 public class TestController{
 
-    @RequestMapping("/d")
+    @RequestMapping("/api/test")
     public Map<String,String> d(@RequestBody Map<String,String> map0){
         HashMap<String, String> map = new HashMap<>();
         map.put("key","value");
+        map.putAll(map0);
         return map;
     }
 }

@@ -12,12 +12,12 @@ servlet:
           # "**": 匹配多个
           # 根据这个匹配路径,匹配的路径,当为null或空数组的时候,
           # 将使用所在map的key作为匹配
-          path: [ "/api/**","/a/**" ]
+          path: [ "/api/**","/**" ]
           # 是否输出日志
           output-log: true
           # 请求方式 null将代表所有方法
           httpMethods:
-            - GET
+            - POST
           # 请求body是否输出日志
           requestBody: true
           # 请求需要输出日志的内容格式
@@ -44,7 +44,7 @@ servlet:
           # 响应内容最大默认缓存长度
           # 0:使用默认的
           # -1: 不限制
-          responseBodyMaxLength: 8192
+          responseBodyMaxSize: 8192
           # 自定义
           custom:
             "key": "value"

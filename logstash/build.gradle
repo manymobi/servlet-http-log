@@ -18,7 +18,7 @@ dependencies {
     compileOnly project(path: ':log')
     compileOnly 'org.slf4j:slf4j-api:1.7.36'
     compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
-    compileOnly('org.springframework.boot:spring-boot-starter-web:2.6.7')
+    compileOnly('org.springframework.boot:spring-boot-starter-web:2.6.10')
 
 }
 

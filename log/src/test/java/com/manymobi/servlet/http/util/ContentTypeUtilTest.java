@@ -25,5 +25,6 @@ class ContentTypeUtilTest {
         boolean compatibleWith = ContentTypeUtil.isCompatibleWith(new HashSet<>(Arrays.asList(strings)),
                 "application/json;charset=UTF-8");
         assertTrue(compatibleWith);
+        assertFalse(ContentTypeUtil.isCompatibleWith(null, null));
     }
 }

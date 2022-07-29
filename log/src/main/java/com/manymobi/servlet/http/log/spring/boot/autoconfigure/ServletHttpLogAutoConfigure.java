@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author 梁建军
@@ -101,14 +102,14 @@ public class ServletHttpLogAutoConfigure {
         Integer requestBodyInitialSize = get(pathStrategy.getRequestBodyInitialSize(),
                 defaultStrategy.getRequestBodyInitialSize(),
                 LogProperties.DEFAULT_STRATEGY.getRequestBodyInitialSize());
-        builder.requestBodyInitialSize(requestBodyInitialSize);
         //当初始化的body大小超过 最大时候,初始化的body转变成 最大的容量
-        if (requestBodyInitialSize > requestBodyMaxSize) {
-            builder.responseBodyInitialSize(requestBodyMaxSize);
-            log.warn("servlet-http-log 配置中 {} 的 requestBodyInitialSize({}) 已超过 requestBodyMaxSize({}) 初始化容量将使用 " +
-                    "requestBodyMaxSize({})", key, requestBodyInitialSize, requestBodyMaxSize, requestBodyMaxSize);
+        if (requestBodyMaxSize > 0 && requestBodyInitialSize > requestBodyMaxSize) {
+            builder.requestBodyInitialSize(requestBodyMaxSize);
+            log.warn("servlet-http-log 配置中 {} 的 requestBodyInitialSize({}) 已超过 requestBodyMaxSize({}) " +
+                    "初始化容量将使用 requestBodyMaxSize({})",
+                    key, requestBodyInitialSize, requestBodyMaxSize, requestBodyMaxSize);
         } else {
-            builder.responseBodyInitialSize(requestBodyInitialSize);
+            builder.requestBodyInitialSize(requestBodyInitialSize);
         }
 
 
@@ -124,25 +125,36 @@ public class ServletHttpLogAutoConfigure {
                 )));
 
 
-        Integer responseBodyMaxLength = get(pathStrategy.getResponseBodyMaxLength(),
-                defaultStrategy.getResponseBodyMaxLength(),
-                LogProperties.DEFAULT_STRATEGY.getResponseBodyMaxLength());
-        builder.responseBodyMaxLength(responseBodyMaxLength);
+        Integer responseBodyMaxSize = get(pathStrategy.getResponseBodyMaxSize(),
+                defaultStrategy.getResponseBodyMaxSize(),
+                LogProperties.DEFAULT_STRATEGY.getResponseBodyMaxSize());
+        builder.responseBodyMaxSize(responseBodyMaxSize);
         Integer responseBodyInitialSize = get(pathStrategy.getResponseBodyInitialSize(),
                 defaultStrategy.getResponseBodyInitialSize(),
                 LogProperties.DEFAULT_STRATEGY.getResponseBodyInitialSize());
         //当初始化的body大小超过 最大时候,初始化的body转变成 最大的容量
-        if (responseBodyInitialSize > responseBodyMaxLength) {
-            builder.responseBodyInitialSize(responseBodyMaxLength);
-            log.warn("servlet-http-log 配置中 {} 的 responseBodyInitialSize({}) 已超过responseBodyMaxLength({}) 初始化容量将使用 " +
-                    "responseBodyMaxLength({})", key, responseBodyInitialSize, responseBodyMaxLength, responseBodyMaxLength);
+        if (responseBodyMaxSize > 0 && responseBodyInitialSize > responseBodyMaxSize) {
+            builder.responseBodyInitialSize(responseBodyMaxSize);
+            log.warn("servlet-http-log 配置中 {} 的 responseBodyInitialSize({}) 已超过 responseBodyMaxSize({}) " +
+                    "初始化容量将使用 responseBodyMaxSize({})",
+                    key, responseBodyInitialSize, responseBodyMaxSize, responseBodyMaxSize);
         } else {
             builder.responseBodyInitialSize(responseBodyInitialSize);
         }
 
-        builder.custom(Collections.unmodifiableMap(get(pathStrategy.getCustom(),
-                defaultStrategy.getCustom(),
-                LogProperties.DEFAULT_STRATEGY.getCustom())));
+
+        Map<String, Object> custom = new HashMap<>();
+        Optional.ofNullable(LogProperties.DEFAULT_STRATEGY.getCustom())
+                .ifPresent(custom::putAll);
+        Optional.ofNullable(defaultStrategy.getCustom())
+                .ifPresent(custom::putAll);
+        Optional.ofNullable(pathStrategy.getCustom())
+                .ifPresent(custom::putAll);
+        if (custom.isEmpty()) {
+            builder.custom(Collections.emptyMap());
+        }else {
+            builder.custom(Collections.unmodifiableMap(custom));
+        }
 
         return builder.build();
     }

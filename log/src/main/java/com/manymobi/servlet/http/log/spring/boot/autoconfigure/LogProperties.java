@@ -23,7 +23,7 @@ public class LogProperties {
     public static final String LOG_PREFIX = "servlet.http.log";
 
     /**
-     * 默认body最大默认缓存长度
+     * 默认body默认缓存长度
      */
     public static final int DEFAULT_BODY_INITIAL_SIZE = 8192;
     /**
@@ -64,7 +64,7 @@ public class LogProperties {
         DEFAULT_STRATEGY.setResponseBody(true);
         DEFAULT_STRATEGY.setResponseContentType(READABLE_CONTENT_TYPE);
         DEFAULT_STRATEGY.setResponseBodyInitialSize(DEFAULT_BODY_MAX_LENGTH);
-        DEFAULT_STRATEGY.setResponseBodyMaxLength(DEFAULT_BODY_MAX_LENGTH);
+        DEFAULT_STRATEGY.setResponseBodyMaxSize(DEFAULT_BODY_MAX_LENGTH);
         DEFAULT_STRATEGY.setCustom(Collections.emptyMap());
     }
 
@@ -163,7 +163,17 @@ public class LogProperties {
          * 0:使用默认的
          * -1: 不限制
          */
-        private Integer responseBodyMaxLength;
+        private Integer responseBodyMaxSize;
+
+        @Deprecated
+        public Integer getResponseBodyMaxLength() {
+            return responseBodyMaxSize;
+        }
+
+        @Deprecated
+        public void setResponseBodyMaxLength(Integer responseBodyMaxLength) {
+            this.responseBodyMaxSize = responseBodyMaxLength;
+        }
 
         /**
          * 自定义

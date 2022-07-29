@@ -41,11 +41,11 @@ public class LogHttpServletResponseWrapper extends HttpServletResponseWrapper {
         this.logStrategy = logStrategy;
         this.print = print;
         if (logStrategy.isResponseBody()) {
-            if (logStrategy.getResponseBodyMaxLength() < 0) {
+            if (logStrategy.getResponseBodyMaxSize() < 0) {
                 byteArrayOutputStream = new ByteArrayOutputStream(logStrategy.getResponseBodyInitialSize());
             } else {
                 byteArrayOutputStream = new PartByteArrayOutputStream(logStrategy.getResponseBodyInitialSize(),
-                        logStrategy.getResponseBodyMaxLength());
+                        logStrategy.getResponseBodyMaxSize());
             }
         } else {
             byteArrayOutputStream = null;
