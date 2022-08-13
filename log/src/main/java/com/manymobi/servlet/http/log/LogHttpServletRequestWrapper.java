@@ -74,6 +74,10 @@ public class LogHttpServletRequestWrapper extends HttpServletRequestWrapper {
             this.servletInputStream = servletInputStream;
             this.logHttpServletRequestWrapper = logHttpServletRequestWrapper;
             int contentLength = logHttpServletRequestWrapper.getContentLength();
+            //解决当请求内容大小未知的时候报错
+            if (contentLength < 0) {
+                contentLength = 0;
+            }
             int requestBodyMaxSize = logStrategy.getRequestBodyMaxSize();
             int requestBodyInitialSize = logStrategy.getRequestBodyInitialSize();
             if (requestBodyInitialSize <= 0) {
