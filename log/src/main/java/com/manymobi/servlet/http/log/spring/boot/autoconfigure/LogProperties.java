@@ -3,6 +3,7 @@ package com.manymobi.servlet.http.log.spring.boot.autoconfigure;
 import com.manymobi.servlet.http.HttpMethod;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.Ordered;
 
@@ -16,6 +17,7 @@ import java.util.Map;
  * @version 1.0
  * @since 1.0
  */
+@Slf4j
 @Data
 @ConfigurationProperties(prefix = LogProperties.LOG_PREFIX)
 public class LogProperties {
@@ -167,12 +169,14 @@ public class LogProperties {
 
         @Deprecated
         public Integer getResponseBodyMaxLength() {
+            log.warn("getResponseBodyMaxLength 已过时,建议换成 getResponseBodyMaxSize");
             return responseBodyMaxSize;
         }
 
         @Deprecated
         public void setResponseBodyMaxLength(Integer responseBodyMaxLength) {
             this.responseBodyMaxSize = responseBodyMaxLength;
+            log.warn("responseBodyMaxLength 已过时,建议换成 responseBodyMaxSize");
         }
 
         /**
