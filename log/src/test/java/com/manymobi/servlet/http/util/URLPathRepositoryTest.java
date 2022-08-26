@@ -28,6 +28,8 @@ class URLPathRepositoryTest {
                 .addPath(HttpMethod.GET, "/api/order/{id}", "/api/order/{id}")
                 .addPath(HttpMethod.GET, "/api/order/{id}/cancel", "/api/order/{id}/cancel")
                 .addPath(HttpMethod.GET, "/api/order/{id}/item/add", "/api/order/{id}/item/add")
+                .addPath(HttpMethod.GET,"/api/a/**","/api/a/**")
+                .addPath(HttpMethod.GET,"/api/a/*/a","/api/a/*/a")
         ;
         repository = stringBuilder.build();
     }
@@ -79,5 +81,10 @@ class URLPathRepositoryTest {
     public void test7() {
         Optional<String> s = repository.find(HttpMethod.POST, "/api/order/2342242/item/add");
         Assertions.assertNull(s.orElse(null));
+    }
+    @Test
+    public void test8() {
+        Optional<String> s = repository.find(HttpMethod.GET, "/api/a/a");
+        Assertions.assertEquals(s.orElse(null),"/api/a/**");
     }
 }

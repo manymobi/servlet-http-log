@@ -202,11 +202,14 @@ public class Repository<T> {
         }
         if (root.matchSingleEntity != null) {
             if (fromIndex + 1 == url.length) {
-                return Optional.ofNullable(root.matchSingleEntity.data);
-            }
-            Optional<T> t = find(root.matchSingleEntity, url, fromIndex + 1, root.matchSingleEntity.subsection);
-            if (t.isPresent()) {
-                return t;
+                if (root.matchSingleEntity.data != null) {
+                    return Optional.of(root.matchSingleEntity.data);
+                }
+            } else {
+                Optional<T> t = find(root.matchSingleEntity, url, fromIndex + 1, root.matchSingleEntity.subsection);
+                if (t.isPresent()) {
+                    return t;
+                }
             }
         }
 
