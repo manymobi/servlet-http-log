@@ -81,15 +81,6 @@ public class LogProperties {
     private boolean enabled = true;
 
     /**
-     * 在这个里面的将调用 {@link javax.servlet.http.HttpServletRequest#getParameterMap()} 记录日志
-     */
-    private String[] parameter = {
-            "application/x-www-form-urlencoded",
-            "application/form-data",
-            "multipart/form-data",
-    };
-
-    /**
      * 默认日志打印策略
      */
     private Strategy defaultStrategy = new Strategy();
