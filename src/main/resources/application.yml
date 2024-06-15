@@ -50,3 +50,13 @@ servlet:
             "key": "value"
         "[/actuator/**]":
           output-log: false
+        "[/a/**]":
+          output-log: true
+          httpMethods:
+            - ALL
+          requestBodyMaxSize: -1
+          requestBodyInitialSize: 1024
+          responseBodyMaxSize: -1
+          responseBodyInitialSize: 1024
+
+

@@ -24,4 +24,11 @@ public class TestController{
         map.putAll(map0);
         return map;
     }
+
+    @RequestMapping("/a/test")
+    public Map<String,String> a(){
+        HashMap<String, String> map = new HashMap<>();
+        map.put("key","value");
+        return map;
+    }
 }

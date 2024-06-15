@@ -29,7 +29,7 @@ import java.util.Optional;
  * @since 1.0
  */
 @Slf4j
-@ConditionalOnClass(javax.servlet.Filter.class)
+@ConditionalOnClass(jakarta.servlet.Filter.class)
 @ConditionalOnProperty(name = "servlet.http.log.enabled", matchIfMissing = true)
 @EnableConfigurationProperties(LogProperties.class)
 public class ServletHttpLogAutoConfigure {

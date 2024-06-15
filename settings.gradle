@@ -1,4 +1,3 @@
 rootProject.name = 'servlet-http-log'
 include 'log'
-include 'logstash'
 
