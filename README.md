@@ -5,18 +5,26 @@ Servlet Http Log
 
 **暂时不支持异步**
 
+| spring boot 版本 | 兼容版本  |     servlet     | 
+|:--------------:|:-----:|:---------------:| 
+|  SpringBoot2   | 1.x.x |  javax.servlet  |
+|  SpringBoot3   | 2.x.x | jakarta.servlet |
+
 引入框架后将输出请求日志. request body只有系统读取了body才会打印. 例如: 未使用 @RequestBody 的时候可能不会输出日志
+
 ```log
 2022-05-29 23:24:40.025  INFO 431055 --- [nio-8080-exec-6] com.manymobi.servlet.http.log.LogFilter  : request POST http://127.0.0.1:8080/d {method=POST, ip=127.0.0.1, parameter=a=b, header={content-length=15, postman-token=489cf0b9-329c-48fc-913f-e4d6b69fb3f1, host=127.0.0.1:8080, connection=keep-alive, content-type=application/json, accept-encoding=gzip, deflate, br, accept=*/*, user-agent=PostmanRuntime/7.29.0}, uri=/d, url=http://127.0.0.1:8080/d}
 2022-05-29 23:24:40.026  INFO 431055 --- [nio-8080-exec-6] com.manymobi.servlet.http.log.LogFilter  : request body={"test":"test"}
 2022-05-29 23:24:40.027  INFO 431055 --- [nio-8080-exec-6] com.manymobi.servlet.http.log.LogFilter  : response status=200 time=2ms body={"key":"value"} header={Keep-Alive=timeout=60, Transfer-Encoding=chunked, Connection=keep-alive, Date=Sun, 29 May 2022 15:24:40 GMT, Content-Type=application/json}
 ````
+
 # 功能介绍
+
 - 打印日志策略设置
-  - 路径 
-  - 请求方式 httpMethods
-  - 内容类型
-  - 限制body内容大小
+    - 路径
+    - 请求方式 httpMethods
+    - 内容类型
+    - 限制body内容大小
 - 自定义输出内容,扩展 com.manymobi.servlet.http.log.Logger
 
 # 如何使用?
@@ -92,6 +100,7 @@ servlet:
 ```
 
 # 当使用 logstash-logback-encoder 时候可以使用下列扩展将提供独立字段
+
 - Maven:
   ```xml
   <dependency>
