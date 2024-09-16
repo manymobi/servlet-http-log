@@ -3,8 +3,8 @@ package com.manymobi.servlet.http.log;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -74,11 +74,7 @@ public abstract class Logger {
     }
 
     protected String decodeURL(String content) {
-        try {
-            return URLDecoder.decode(content, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            return content;
-        }
+        return URLDecoder.decode(content, StandardCharsets.UTF_8);
     }
 
     protected Map<String, Object> getHeader(HttpServletRequest httpRequest) {

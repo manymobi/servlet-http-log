@@ -12,8 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 /**
@@ -29,6 +29,11 @@ public class LogFilter implements Filter {
 
     private final Logger logger;
 
+    /**
+     * 初始化
+     * @param logger 日志
+     * @param urlPathRepository url路径存储库
+     */
     public LogFilter(Logger logger, URLPathRepository<LogStrategy> urlPathRepository) {
         this.logger = logger;
         this.urlPathRepository = urlPathRepository;
@@ -40,11 +45,7 @@ public class LogFilter implements Filter {
     }
 
     protected String decodeURL(String content) {
-        try {
-            return URLDecoder.decode(content, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            return content;
-        }
+        return URLDecoder.decode(content, StandardCharsets.UTF_8);
     }
 
     @Override
