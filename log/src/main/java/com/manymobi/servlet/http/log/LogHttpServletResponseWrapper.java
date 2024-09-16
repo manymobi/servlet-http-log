@@ -22,7 +22,7 @@ import java.util.function.Consumer;
  * @since 1.0
  */
 public class LogHttpServletResponseWrapper extends HttpServletResponseWrapper {
-
+    public static final String DEFAULT_CHARACTER_ENCODING ="ISO-8859-1";
     /**
      * 用于记录请求体，打印完日志就释放
      */
@@ -33,6 +33,8 @@ public class LogHttpServletResponseWrapper extends HttpServletResponseWrapper {
     private final Consumer<String> print;
 
     private boolean printIng = false;
+
+    private PrintWriter writer;
 
 
     public LogHttpServletResponseWrapper(HttpServletResponse response, LogStrategy logStrategy,
@@ -73,7 +75,12 @@ public class LogHttpServletResponseWrapper extends HttpServletResponseWrapper {
 
     @Override
     public PrintWriter getWriter() throws IOException {
-        return new PrintWriter(new OutputStreamWriter(getOutputStream(), getCharacterEncoding()), true);
+        if (this.writer == null) {
+            String characterEncoding = getCharacterEncoding();
+            this.writer = (characterEncoding != null ? new ResponsePrintWriter(getOutputStream(), characterEncoding) :
+                    new ResponsePrintWriter(getOutputStream(), DEFAULT_CHARACTER_ENCODING));
+        }
+        return this.writer;
     }
 
     public String getBodyString(String charsetName) throws UnsupportedEncodingException {
@@ -155,6 +162,31 @@ public class LogHttpServletResponseWrapper extends HttpServletResponseWrapper {
         @Override
         public void flush() throws IOException {
             servletOutputStream.flush();
+            super.flush();
+        }
+    }
+
+    private static class ResponsePrintWriter extends PrintWriter {
+
+        public ResponsePrintWriter(ServletOutputStream outputStream, String characterEncoding) throws UnsupportedEncodingException {
+            super(new OutputStreamWriter(outputStream, characterEncoding));
+        }
+
+        @Override
+        public void write(char[] buf, int off, int len) {
+            super.write(buf, off, len);
+            super.flush();
+        }
+
+        @Override
+        public void write(String s, int off, int len) {
+            super.write(s, off, len);
+            super.flush();
+        }
+
+        @Override
+        public void write(int c) {
+            super.write(c);
             super.flush();
         }
     }
